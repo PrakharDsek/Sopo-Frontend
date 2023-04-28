@@ -13,6 +13,7 @@ const LoginContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 100px;
+  color: #fff;
 `;
 
 const Form = styled.form`
@@ -34,6 +35,7 @@ const InputField = styled.input`
   border-radius: 5px;
   background-color: transparent;
   font-size: 16px;
+  color: #fff;
   margin: 15px;
   &:focus {
     outline: none;
@@ -59,7 +61,7 @@ const ToggleFormButton = styled.button`
   margin-top: 20px;
   border: none;
   background-color: transparent;
-  color: #5c5c5c;
+  color: #fff;
   cursor: pointer;
 
   &:hover {
@@ -78,7 +80,7 @@ const Register = ({ BackendUrl }) => {
   const [AccountType, setAccountType] = useState("");
   const [Loader, setLoader] = useState(false);
   const dispatch = useDispatch();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   const toggleForm = () => {
     setIsLoginForm(!isLoginForm);
@@ -107,12 +109,12 @@ const Register = ({ BackendUrl }) => {
       dispatch(
         setAuthStatusAndData({
           IsAuth: true,
-          data:Create,
+          data: Create,
         })
       );
       dispatch(SendNotification());
       localStorage.setItem("loginToken", User.data.data._id);
-      navigate("/")
+      navigate("/");
     } catch (error) {
       console.log(error);
       setLoader(false);
@@ -123,70 +125,66 @@ const Register = ({ BackendUrl }) => {
         })
       );
       dispatch(SendNotification());
-       navigate("/register");
-
+      navigate("/register");
     }
   };
 
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoader(true);
-  try {
-    const Create = await axios.post(
-      `${BackendUrl}/auth/createUser`,
-      {
-        email: email,
-        password: password,
-        bio: bio,
-        age: Age,
-        fullname: FullName,
-        hobby: Hobby,
-        accountType: AccountType,
-        name: FullName,
-      },
-      {
-        withCredentials: true,
-      }
-    );
-    setLoader(false);
-    dispatch(
-      setAuthStatusAndData({
-        IsAuth: true,
-        data: Create.data,
-      })
-    );
-    dispatch(
-      setNotification({
-        message: Create.data.message,
-        success: "true",
-      })
-    );
-    dispatch(
-      setAuthStatusAndData({
-        IsAuth: true,
-        data: Create,
-      })
-    );
-    dispatch(SendNotification());
-    console.log(Create)
-    localStorage.setItem("loginToken", Create.data.data._id);
-    navigate("/");
-  } catch (error) {
-    console.log(error.message);
-    setLoader(false);
-    dispatch(
-      setNotification({
-        message: error.message,
-        success: "false",
-      })
-    );
-    dispatch(SendNotification());
-    navigate("/register");
-  }
-};
-
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoader(true);
+    try {
+      const Create = await axios.post(
+        `${BackendUrl}/auth/createUser`,
+        {
+          email: email,
+          password: password,
+          bio: bio,
+          age: Age,
+          fullname: FullName,
+          hobby: Hobby,
+          accountType: AccountType,
+          name: FullName,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      setLoader(false);
+      dispatch(
+        setAuthStatusAndData({
+          IsAuth: true,
+          data: Create.data,
+        })
+      );
+      dispatch(
+        setNotification({
+          message: Create.data.message,
+          success: "true",
+        })
+      );
+      dispatch(
+        setAuthStatusAndData({
+          IsAuth: true,
+          data: Create,
+        })
+      );
+      dispatch(SendNotification());
+      console.log(Create);
+      localStorage.setItem("loginToken", Create.data.data._id);
+      navigate("/");
+    } catch (error) {
+      console.log(error.message);
+      setLoader(false);
+      dispatch(
+        setNotification({
+          message: error.message,
+          success: "false",
+        })
+      );
+      dispatch(SendNotification());
+      navigate("/register");
+    }
+  };
 
   return (
     <LoginContainer>
@@ -209,7 +207,9 @@ const handleSubmit = async (e) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <SubmitButton onClick={FetchLoginApi} type="submit">Submit</SubmitButton>
+              <SubmitButton onClick={FetchLoginApi} type="submit">
+                Submit
+              </SubmitButton>
               <ToggleFormButton onClick={toggleForm}>
                 Create Account
               </ToggleFormButton>
@@ -255,8 +255,7 @@ const handleSubmit = async (e) => {
                 type="number"
                 placeholder="What is your age"
               />
-        
-             
+
               <SubmitButton onClick={handleSubmit} type="submit">
                 Create Account
               </SubmitButton>
@@ -267,6 +266,6 @@ const handleSubmit = async (e) => {
       )}
     </LoginContainer>
   );
-          }
+};
 
 export default Register;
